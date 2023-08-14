@@ -138,8 +138,7 @@
                         'btn-outline-primary';
                     // <a href="${show_url}" class="btn btn-sm btn-outline-info">View</a>&nbsp;
                     let action =
-                        `<a href="${show_url}" target="_blank" class="btn btn-sm btn-outline-info"><i class="fa fa-print"></i></a>&nbsp<a href="${url}" class="btn btn-sm btn-outline-warning">Edit</a>
-                    <button type="button" onClick="changeStatus(${row.id}, ${index}, '${status}')" class="btn btn-sm ` +
+                        `<a href="${show_url}" target="_blank" class="btn btn-sm btn-outline-info"><i class="fa fa-print"></i></a>&nbsp<button type="button" onClick="changeStatus(${row.id}, ${index}, '${status}')" class="btn btn-sm ` +
                         class_name + `">` + status + `</button>`;
                     return action;
                 }

@@ -89,7 +89,7 @@
                                     <th data-field="transport_name" data-filter-control="select" data-sortable="true">
                                         Transport name </th>
                                     <th data-field="car_no" data-filter-control="select" data-sortable="true">Car No. </th>
-                                    <th data-field="date" data-filter-control="select" data-sortable="true">Date</th>
+                                    <th data-field="created_at" data-filter-control="select" data-sortable="true">Date</th>
                                     <th data-field="qty" data-filter-control="input" data-sortable="true">Quantity </th>
                                     {{-- <th data-field="fragrance_tone_1.name" data-filter-control="select" data-sortable="true">Fragrance Tone 1 </th> --}}
                                     {{-- <th data-field="price" data-filter-control="input" data-sortable="true">Price </th> --}}

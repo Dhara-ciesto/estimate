@@ -151,7 +151,7 @@
     <div class="table-section bill-tbl w-100 mt-10">
         <table class="table w-100 mt-10">
             <tr>
-                <th>Details</th>
+                <th>{{ __('message.details') }}</th>
                 <th></th>
             </tr>
             <tr>
@@ -219,10 +219,10 @@
     <div class="table-section bill-tbl w-100 mt-10">
         <table class="table w-100 mt-10">
             <tr>
-                <th class="w-50">Product Name</th>
-                <th class="w-20">Price</th>
-                <th class="w-10">Qty</th>
-                <th class="w-20">Total</th>
+                <th class="w-50">{{ __('message.price') }}</th>
+                <th class="w-20">{{ __('message.qty') }}</th>
+                <th class="w-10">{{ __('message.price') }}</th>
+                <th class="w-20">{{ __('message.sub_total') }}</th>
                 {{-- <th class="w-50">Tax Amount</th> --}}
                 {{-- <th class="w-50">Total</th> --}}
             </tr>
@@ -241,7 +241,7 @@
                 <td colspan="4">
                     <div class="total-part">
                         <div class="total-left w-85 float-left" align="right">
-                            <p>Grand Total : </p>
+                            <p>{{ __('message.total') }} : </p>
                         </div>
                         <div class="total-right w-15 float-left text-bold" align="right">
                             <p>{{ $total }}</p>

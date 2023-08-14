@@ -262,7 +262,7 @@
             var element = document.getElementById('ddd');
             var opt = {
                 margin:  [1, 0.2, 0.2, 0.2],
-                filename: 'test_file.pdf',
+                filename: 'Estimate.pdf',
                 image: {
                     type: 'jpeg',
                     quality: 0.98

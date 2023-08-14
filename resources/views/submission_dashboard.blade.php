@@ -8,6 +8,7 @@
 @slot('li_1') Home @endslot
 @slot('title') Dashboard @endslot
 @endcomponent
+@if(Auth::user()->id == 1)
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -17,12 +18,14 @@
         </div>
     </div> <!-- end col -->
 </div> <!-- end row -->
+@endif
 <div class="row">
-    <div class="col-xl-8">
+    <div class="col-xl-12">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-12">
                 <div class="card mini-stats-wid">
                     <div class="card-body">
+                        @if(Auth::user()->id == 1)
                         <div class="d-flex">
                             <div class="flex-grow-1">
                                 <p class="text-muted fw-medium"><a href="{{ route('product.index') }}">Total Products </a></p>
@@ -37,6 +40,42 @@
                                 </div>
                             </div>
                         </div>
+                    @else
+                    <div class="table-responsive">
+                        <table class="table mb-0" id="user_table" data-unique-id="id" data-toggle="table"
+                            data-ajax="ajaxRequest" data-side-pagination="server" data-pagination="true"
+                            data-total-field="count" data-data-field="items" data-show-columns="true"
+                            data-show-toggle="false" data-filter-control="true" data-filter-control-container="#filters"
+                            data-show-columns-toggle-all="true">
+                            <div id="filters" class="row bootstrap-table-filter-control">
+
+                            </div>
+                            <thead>
+                                <tr>
+                                    <th data-field="counter" data-sortable="true">#</th>
+                                    {{-- <th data-field="product_brand.name" data-filter-control="select" data-sortable="true">Brand </th> --}}
+                                    <th data-field="buyer_name" data-filter-control="input" data-sortable="true">Buyer Name
+                                    </th>
+                                    <th data-field="village_name" data-filter-control="select" data-sortable="true">Village
+                                        Type </th>
+                                    {{-- <th data-field="transport_name" data-filter-control="select" data-sortable="true">
+                                        Transport name </th> --}}
+                                    {{-- <th data-field="car_no" data-filter-control="select" data-sortable="true">Car No. </th> --}}
+                                    <th data-field="created_at" data-filter-control="select" data-sortable="true">Date</th>
+                                    {{-- <th data-field="qty" data-filter-control="input" data-sortable="true">Quantity </th> --}}
+                                    {{-- <th data-field="fragrance_tone_1.name" data-filter-control="select" data-sortable="true">Fragrance Tone 1 </th> --}}
+                                    {{-- <th data-field="price" data-filter-control="input" data-sortable="true">Price </th> --}}
+                                    {{-- <th data-field="campaign.name" data-filter-control="select" data-sortable="true">Campaign </th> --}}
+                                    {{-- <th data-field="gender" data-filter-control="select" data-sortable="true">Gender</th> --}}
+                                    {{-- <th data-field="status"  data-sortable="true">Status</th> --}}
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    @endif
                     </div>
                 </div>
             </div>
@@ -60,6 +99,7 @@
 @endsection
 
 @push('js')
+
 <!-- Responsive Table js -->
 {{-- <script src="{{ URL::asset('/assets/libs/rwd-table/rwd-table.min.js') }}"></script> --}}
 
@@ -84,4 +124,39 @@
 
 <script src="{{asset('assets/js/datatable.js')}}"></script>
 
+
+    <script>
+        let $table = $('#user_table');
+        $table.bootstrapTable({
+            columns: [{}, {}, {}, {}, {
+                field: 'operate',
+                sortable: 'false',
+                title: 'Action',
+                align: 'center',
+                valign: 'middle',
+                clickToSelect: false,
+                formatter: function(value, row, index) {
+                    let url = "{{ route('order.edit', ['id' => ':queryId']) }}";
+                    url = url.replace(':queryId', row.id);
+                    let show_url = "{{ route('order.print', ['id' => ':queryId']) }}";
+                    show_url = show_url.replace(':queryId', row.id);
+                    let status = row.status == 'Active' ? 'Deactive' : 'Active';
+                    var class_name = row.status == 'Active' ? 'btn-outline-danger' :
+                        'btn-outline-primary';
+                    // <a href="${show_url}" class="btn btn-sm btn-outline-info">View</a>&nbsp;
+                    let action =
+                        `<a href="${show_url}" target="_blank" class="btn btn-sm btn-outline-info"><i class="fa fa-print"></i></a>`;
+                    return action;
+                }
+            }]
+        });
+
+
+        function ajaxRequest(params) {
+            var url = "{{ route('order.server_side') }}"
+            $.get(url + '?' + $.param(params.data)).then(function(res) {
+                params.success(res)
+            })
+        }
+        </script>
 @endpush

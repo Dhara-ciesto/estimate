@@ -14,7 +14,7 @@
                         <span key="t-starter-page">{{ __('Dashboard') }}</span>
                     </a>
                 </li>
-                @if (Auth::user()->role == 1 || Auth::user()->role == 2)
+                @if (Auth::user()->role == 1)
                     <li>
                         <a href="{{ route('product.index') }}" class="waves-effect">
                             <i class="fas fa-box"></i>

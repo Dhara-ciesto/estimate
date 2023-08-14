@@ -227,13 +227,14 @@
                 {{-- <th class="w-50">Total</th> --}}
             </tr>
             @php $total = 0;@endphp
+           {{-- {{ dd($order->products )}} --}}
             @foreach ($order->products as $product)
                 <tr align="center">
-                    @php $total +=  $order->qty*$product->price; @endphp
-                    <td style="text-align:left;">{{ $product->product_name }}</td>
-                    <td>{{ $product->price }}</td>
+                    @php $total +=  $order->qty*$product->product->price; @endphp
+                    <td style="text-align:left;">{{ $product->product->product_name }}</td>
+                    <td>{{ $product->product->price }}</td>
                     <td>{{ $order->qty }}</td>
-                    <td>{{ $order->qty * $product->price }}</td>
+                    <td>{{ $order->qty * $product->product->price }}</td>
                 </tr>
             @endforeach
             <tr>

@@ -42,35 +42,39 @@ class OrderController extends Controller
         $limit = $request->limit;
         $i = 1;
         // your table name
-        $query = Order::when($search, function ($q) use ($filter, $i) {
-                foreach ($filter as $key => $item) {
-                    if ($key == 'product_brand.name') {
-                        $q->whereHas('product_brand', function ($c) use ($item) {
-                            $c->where('name', 'like', '%' . $item . '%');
-                        });
-                        // } else if ($key == 'scent_type.name') {
-                        //     $q->whereHas('scent_type', function ($c) use ($item) {
-                        //         $c->where('name', 'like', '%' . $item . '%');
-                        //     });
-                        // } else if ($key == 'fragrance_tone_1.name') {
-                        //     $q->whereHas('fragrance_tone_1', function ($c) use ($item) {
-                        //         $c->where('name', 'like', '%' . $item . '%');
-                        //     });
-                        // } else if ($key == 'campaign.name') {
-                        //     $q->whereHas('campaign', function ($c) use ($item) {
-                        //         $c->where('name', 'like', '%' . $item . '%');
-                        //     });
-                    } else {
-                        $q->where($key, 'Like', '%' . $item . '%');
-                    }
-                }
-            })->when($sort, function ($q1) use ($sort, $order) {
-                if ($sort == 'counter') {
-                    $q1->orderBy('id', $order);
+        $query = Order::where('id', '>', 0);
+        if (Auth::user()->id != 1) {
+            $query->where('status', 'Active');
+        }
+        $query->when($search, function ($q) use ($filter, $i) {
+            foreach ($filter as $key => $item) {
+                if ($key == 'product_brand.name') {
+                    $q->whereHas('product_brand', function ($c) use ($item) {
+                        $c->where('name', 'like', '%' . $item . '%');
+                    });
+                    // } else if ($key == 'scent_type.name') {
+                    //     $q->whereHas('scent_type', function ($c) use ($item) {
+                    //         $c->where('name', 'like', '%' . $item . '%');
+                    //     });
+                    // } else if ($key == 'fragrance_tone_1.name') {
+                    //     $q->whereHas('fragrance_tone_1', function ($c) use ($item) {
+                    //         $c->where('name', 'like', '%' . $item . '%');
+                    //     });
+                    // } else if ($key == 'campaign.name') {
+                    //     $q->whereHas('campaign', function ($c) use ($item) {
+                    //         $c->where('name', 'like', '%' . $item . '%');
+                    //     });
                 } else {
-                    $q1->orderBy($sort, $order);
+                    $q->where($key, 'Like', '%' . $item . '%');
                 }
-            });
+            }
+        })->when($sort, function ($q1) use ($sort, $order) {
+            if ($sort == 'counter') {
+                $q1->orderBy('id', $order);
+            } else {
+                $q1->orderBy($sort, $order);
+            }
+        });
         if (!$sort) {
             $query->orderBy('created_at', 'desc');
         }
@@ -85,7 +89,7 @@ class OrderController extends Controller
         foreach ($row as $key => $item) {
             $row[$key]['counter'] = $index++;
             $row[$key]['checkbox'] = '<input type="checkbox" class="sub_chk" data-id="' . $row[$key]['id'] . '">';
-            $row[$key]['created_at'] =  date('d-m-Y h:i a',strtotime($row[$key]['created_at']));
+            $row[$key]['created_at'] =  date('d-m-Y h:i a', strtotime($row[$key]['created_at']));
         }
         $data['items'] = $row;
         $data['count'] = $count;
@@ -133,12 +137,12 @@ class OrderController extends Controller
         }
 
         // $reqData['product'] =  implode(",",$reqData['group-a']['product']);
-        unset($reqData['_token'], $reqData['photo'],$reqData['group-a']);
+        unset($reqData['_token'], $reqData['photo'], $reqData['group-a']);
         $reqData['order_by'] =  Auth::user()->id;
 
         $order = Order::create($reqData);
         $qty = 0;
-        if($request->get('group-a')){
+        if ($request->get('group-a')) {
             foreach ($request->get('group-a') as $key => $value) {
                 $prod_ids[] = $value['product'];
                 $qty += $value['qty'];
@@ -148,7 +152,7 @@ class OrderController extends Controller
                     'qty' => $value['qty'],
                 ]);
             }
-            $order->product = implode(",",$prod_ids);
+            $order->product = implode(",", $prod_ids);
             $order->qty = $qty;
             $order->save();
         }

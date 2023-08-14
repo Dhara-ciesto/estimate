@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\OrderProduct;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\App;
@@ -41,11 +42,7 @@ class OrderController extends Controller
         $limit = $request->limit;
         $i = 1;
         // your table name
-        $query = Order::where('id','>',0);
-                if (Auth::user()->id != 1) {
-                    $query->where('order_by', Auth::user()->id);
-                }
-                $query->when($search, function ($q) use ($filter, $i) {
+        $query = Order::when($search, function ($q) use ($filter, $i) {
                 foreach ($filter as $key => $item) {
                     if ($key == 'product_brand.name') {
                         $q->whereHas('product_brand', function ($c) use ($item) {
@@ -114,14 +111,15 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $validated = $request->validate([
-            'product' => 'required',
+            // 'product' => 'required',
             'buyer_name' => 'required',
             'village_name' => 'required',
             'car_no' => 'required',
             'transport_name' => 'required',
             'date' => 'required',
-            'qty' => 'required|numeric'
+            // 'qty' => 'required|numeric'
         ]);
 
         $reqData = $request->all();
@@ -133,11 +131,28 @@ class OrderController extends Controller
             $photo->move($avatarPath, $filename);
             $reqData['file'] = '/images/product/' . $filename;
         }
-        unset($reqData['_token'], $reqData['photo']);
-        $reqData['product'] =  implode(",",$reqData['product']);
+
+        // $reqData['product'] =  implode(",",$reqData['group-a']['product']);
+        unset($reqData['_token'], $reqData['photo'],$reqData['group-a']);
         $reqData['order_by'] =  Auth::user()->id;
 
-        Order::create($reqData);
+        $order = Order::create($reqData);
+        $qty = 0;
+        if($request->get('group-a')){
+            foreach ($request->get('group-a') as $key => $value) {
+                $prod_ids[] = $value['product'];
+                $qty += $value['qty'];
+                OrderProduct::create([
+                    'order_id' => $order->id,
+                    'product_id' => $value['product'],
+                    'qty' => $value['qty'],
+                ]);
+            }
+            $order->product = implode(",",$prod_ids);
+            $order->qty = $qty;
+            $order->save();
+        }
+
         Log::info('Estimate Created');
         return redirect()->route('order.index')->with('success', 'Estimate created successfully');
     }
@@ -198,6 +213,7 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $validated = $request->validate([
             'product_name' => 'required|unique:products,product_name,' . $id,
             'qty' => 'required|numeric'

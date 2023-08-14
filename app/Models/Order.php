@@ -9,18 +9,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Order extends Model
 {
     use HasFactory;
-    protected $casts = [
-        'product' => 'array'
-    ];
-    protected $appends = [
-        'products'
-    ];
     protected $guarded = [];
 
-    // public function products()
-    // {
-    //     return $this->hasMany(Product::class, 'id');
-    // }
+    public function products()
+    {
+        return $this->hasMany(OrderProduct::class, 'id');
+    }
     // public function getProductsAttribute()
     // {
     //     $monitorId = $this->product;
@@ -34,10 +28,10 @@ class Order extends Model
     //     return Product::whereIn('id', explode(',', $monitorId))->get();
     // }
 
-    public function products(): Attribute
-    {
-        return new Attribute(
-            get: fn($value) =>  Product::whereIn('id',explode(',', $this->attributes['product']))->get(),
-        );
-    }
+    // public function products(): Attribute
+    // {
+    //     return new Attribute(
+    //         get: fn($value) =>  Product::whereIn('id',explode(',', $this->attributes['product']))->get(),
+    //     );
+    // }
 }

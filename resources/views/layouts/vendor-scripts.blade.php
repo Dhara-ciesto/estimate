@@ -17,7 +17,7 @@
 
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+{{-- <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>
     // window.OneSignalDeferred = window.OneSignalDeferred || [];
     // OneSignalDeferred.push(function(OneSignal) {
@@ -68,7 +68,7 @@
             // This event can be listened to via the `on()` or `once()` listener.
         });
     });
-</script>
+</script> --}}
 
 
 

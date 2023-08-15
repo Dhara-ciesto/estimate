@@ -149,6 +149,8 @@ class OrderController extends Controller
                 OrderProduct::create([
                     'order_id' => $order->id,
                     'product_id' => $value['product'],
+                    'rate' => $value['rate'],
+                    'mrp' => $value['mrp'],
                     'qty' => $value['qty'],
                 ]);
             }

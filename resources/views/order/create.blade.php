@@ -59,6 +59,20 @@
                                 <div class="form-group">
                                     <div class="col-sm-11">
                                         <div class="mb-2">
+                                            <label for="brand_name"> Date<span class="error">*</span></label>
+                                            <input id="date" name="date" type="date" value="{{ old('date') }}"
+                                                class="form-control"">
+                                            @error('date')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5 p-0">
+                                <div class="form-group">
+                                    <div class="col-sm-11">
+                                        <div class="mb-2">
                                             <label for="brand_name">Car No<span class="error">*</span></label>
                                             <input id="car_no" name="car_no" type="text" value="{{ old('car_no') }}"
                                                 class="form-control" placeholder="Car Number">
@@ -81,25 +95,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="col-sm-11">
-                                        <div class="mb-2">
-                                            <label for="brand_name"> Date<span class="error">*</span></label>
-                                            <input id="date" name="date" type="date" value="{{ old('date') }}"
-                                                class="form-control"">
-                                            @error('date')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
-                            <div class="col-md-5 p-0">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 p-0 mt-4">
                                 <div class='repeater'>
                                     <div data-repeater-list="group-a">
                                         <div data-repeater-item>
                                             <div class="row">
-                                                <div class="form-group col-md-6">
+                                                <div class="form-group col-md-3">
                                                     <div class="">
                                                         <div class="mb-2">
                                                             <label for="brand_name"> Product<span
@@ -120,7 +124,7 @@
                                                     </div>
 
                                                 </div>
-                                                <div class="form-group col-md-5">
+                                                <div class="form-group col-md-2">
                                                     <div class="">
                                                         <div class="col-sm-11">
                                                             <div class="mb-2">
@@ -131,6 +135,40 @@
                                                                     value="{{ old('qty') }}" class="form-control"
                                                                     placeholder="Quantity" autocomplete="off">
                                                                 @error('qty')
+                                                                    <div class="text-danger">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {{-- <input data-repeater-delete type="button" value="Delete" /> --}}
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <div class="">
+                                                        <div class="col-sm-11">
+                                                            <div class="mb-2">
+                                                                <label for="brand_name">Rate<span
+                                                                        class="error">*</span></label>
+                                                                <input id="rate" name="rate"  step="any" type="number" 
+                                                                    value="{{ old('rate') }}" class="form-control"
+                                                                    placeholder="Rate" autocomplete="off">
+                                                                @error('rate')
+                                                                    <div class="text-danger">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {{-- <input data-repeater-delete type="button" value="Delete" /> --}}
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <div class="">
+                                                        <div class="col-sm-11">
+                                                            <div class="mb-2">
+                                                                <label for="brand_name">MRP<span
+                                                                        class="error">*</span></label>
+                                                                <input id="mrp" name="mrp"  step="any" type="number"
+                                                                    value="{{ old('mrp') }}" class="form-control"
+                                                                    placeholder="MRP" autocomplete="off">
+                                                                @error('mrp')
                                                                     <div class="text-danger">{{ $message }}</div>
                                                                 @enderror
                                                             </div>

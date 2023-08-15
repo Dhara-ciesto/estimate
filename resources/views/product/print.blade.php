@@ -116,6 +116,9 @@
         float: left;
     }
 
+    .float-center{
+ float: center;
+    }
     .float-right {
         float: right;
         text-align: right;
@@ -219,36 +222,51 @@
     <div class="table-section bill-tbl w-100 mt-10">
         <table class="table w-100 mt-10">
             <tr>
-                <th class="w-50">{{ __('message.price') }}</th>
+                <th class="w-5">{{ __('No.') }}</th>
+                <th class="w-35">{{ __('message.details') }}</th>
                 <th class="w-20">{{ __('message.qty') }}</th>
-                <th class="w-10">{{ __('message.price') }}</th>
-                <th class="w-20">{{ __('message.sub_total') }}</th>
-                {{-- <th class="w-50">Tax Amount</th> --}}
+                {{-- <th class="w-10">{{ __('message.price') }}</th> --}}
+                <th class="w-20">{{ __('message.rate') }}</th>
+                <th class="w-20">{{ __('message.mrp') }}</th>
                 {{-- <th class="w-50">Total</th> --}}
             </tr>
-            @php $total = 0;@endphp
+            @php $total = 0; $totalrate = 0; $totalmrp = 0; @endphp
            {{-- {{ dd($order->products )}} --}}
-            @foreach ($order->products as $product)
+            @foreach ($order->products as $key => $product)
                 <tr align="center">
-                    @php $total +=  $order->qty*$product->product->price; @endphp
+                    @php $total +=  $order->qty*$product->product->price;
+                         $totalrate +=  $product->rate;
+                         $totalmrp += $product->mrp;
+                    @endphp
+                    <td>{{ $key+1 }}</td>
                     <td style="text-align:left;">{{ $product->product->product_name }}</td>
-                    <td>{{ $product->product->price }}</td>
-                    <td>{{ $order->qty }}</td>
-                    <td>{{ $order->qty * $product->product->price }}</td>
+                    {{-- <td>{{ $product->product->price }}</td> --}}
+                    <td>{{ $product->qty }}</td>
+                    <td>{{ $product->rate ? $product->rate : '-' }}</td>
+                    <td>{{ $product->mrp  ? $product->mrp : '-' }}</td>
                 </tr>
             @endforeach
             <tr>
-                <td colspan="4">
-                    <div class="total-part">
-                        <div class="total-left w-85 float-left" align="right">
+                <td colspan="2">
+                        <div class="float-right text-bold total-right p" align="right">
                             <p>{{ __('message.total') }} : </p>
                         </div>
-                        <div class="total-right w-15 float-left text-bold" align="right">
-                            <p>{{ $total }}</p>
+                    </td>
+                    <td>
+                        <div class="float-center text-bold" align="center">
+                            <p>  {{ $order->qty }}</p>
                         </div>
-                        <div style="clear: both;"></div>
-                    </div>
-                </td>
+                    </td>
+                    <td>
+                        <div class="float-center text-bold" align="center">
+                            <p>  {{ $totalrate }}</p>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="float-center text-bold" align="center">
+                            <p>{{ $totalmrp }}</p>
+                        </div>
+                    </td>
             </tr>
         </table>
     </div>

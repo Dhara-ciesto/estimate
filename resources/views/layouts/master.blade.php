@@ -3,11 +3,11 @@
 
 <head>
     <meta charset="utf-8" />
-    <title> @yield('title') | Project</title>
+    <title> @yield('title') | Estimate</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Tira" name="description" />
-    <meta content="Tira" name="author" />
+    <meta content="Estimate" name="description" />
+    <meta content="Estimate" name="author" />
     <!-- App favicon -->
     {{-- <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.png') }}"> --}}
 

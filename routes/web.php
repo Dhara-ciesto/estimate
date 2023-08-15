@@ -211,3 +211,20 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
 });
 //Language Translation
 Route::get('index/{locale}', [App\Http\Controllers\HomeController::class, 'lang']);
+Route::get('sendnotification', function(){
+    \OneSignal::sendNotificationToUser(
+       'ff',
+        '2487e250-b13a-40cc-aa89-7cbaf051fe77',
+        $url = null,
+        $data = null,
+        $buttons = null,
+        $schedule = null
+    );
+    // OneSignal::sendNotificationToAll(
+    //     "Some Message",
+    //     $url = null,
+    //     $data = null,
+    //     $buttons = null,
+    //     $schedule = null
+    // );
+});

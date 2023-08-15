@@ -3,7 +3,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title> @yield('title') | TIRA</title>
+        <title> @yield('title') | Estimate</title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- CSRF Token -->

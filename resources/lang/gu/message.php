@@ -12,4 +12,6 @@ return [
     'total' => 'કુલ',
     'sub_total' => 'પેટા કુલ',
     'details' => 'વિગતો',
+    'rate' => 'Rate',
+    'mrp' => 'MRP',
 ];
